@@ -1125,7 +1125,8 @@ public class Triangulo {
 										- ((zright - zleft) * ((right - col) / (right - left)));
 							}
 
-							if (buf[col][row] > perspZ) {
+							//if (buf[col][row] > perspZ)
+							{
 								buf[col][row] = -t[6].get(0); // en t[6] tengo
 																// la normal al
 																// triangulo
