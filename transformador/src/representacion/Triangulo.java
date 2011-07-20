@@ -444,7 +444,8 @@ public class Triangulo {
 								}
 							}
 
-							if (buf[col][row] > tmp4) {
+							//if (buf[col][row] > tmp4)
+							{
 								if (tmp4 < -1.0) {
 									tmp4 = -1.0;
 								}
@@ -926,7 +927,8 @@ public class Triangulo {
 								tmp4 = perspZ;
 							}// System.out.println(tmp4);
 
-							if (buf[col][row] > tmp4) {
+							//if (buf[col][row] > tmp4)
+							{
 								 if (tmp4 <-1.0){ tmp4 = -1.0; }
 							
 								 // if the grid is poor, sometimes an slight

@@ -10,7 +10,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Arrays;
+import java.util.Comparator;
 public class ObjetoSur extends ObjetoTridimensional {
 	private double maxX;
 	private double maxY;
@@ -171,7 +172,7 @@ public class ObjetoSur extends ObjetoTridimensional {
 			// }
 			// maxZ = maxZ - maxZ * 2;
 			// minZ = minZ - maxZ * 2;
-Vector3D normalAnterior=null;
+//Vector3D normalAnterior=null;
 			for (int i = 0; i < triangulo.length; i++) {
 				Triangulo trianguloActual = triangulo[i];
 				Triangulo trianguloSalvado = trianguloSalvados[i];
@@ -198,17 +199,17 @@ Vector3D normalAnterior=null;
 						.getPoint(1).get(0)]);
 				trianguloActual.setPoint(2, vector[(int) trianguloActual
 						.getPoint(2).get(0)]);
-				Vector3D normal=calcularNormal(trianguloActual);
-				if (angulo(trianguloActual.getPoint(0),trianguloActual.getPoint(1),trianguloActual.getPoint(2))>0){
-				
-			//	if (estaAlRevez(trianguloActual.getPoint(0),trianguloActual.getPoint(1),trianguloActual.getPoint(2))){
-				
-			//	if(normalAnterior!=null && estaAlRevez(normalAnterior,normal)){
-				invertir2Vertices(trianguloActual);//TODO: invertir dos puntos (en los 3 vectores)
-					invertir2Vertices(trianguloSalvado);
-					invertir2Vertices(trianguloPuntos[i]);
-				}
-				normalAnterior=normal;
+//				Vector3D normal=calcularNormal(trianguloActual);
+//				if (angulo(trianguloActual.getPoint(0),trianguloActual.getPoint(1),trianguloActual.getPoint(2))>0){
+//				
+//			//	if (estaAlRevez(trianguloActual.getPoint(0),trianguloActual.getPoint(1),trianguloActual.getPoint(2))){
+//				
+//			//	if(normalAnterior!=null && estaAlRevez(normalAnterior,normal)){
+//				invertir2Vertices(trianguloActual);//TODO: invertir dos puntos (en los 3 vectores)
+//					invertir2Vertices(trianguloSalvado);
+//					invertir2Vertices(trianguloPuntos[i]);
+//				}
+//				normalAnterior=normal;
 				
 			}
 			System.out.println(new Date().toString() + " Finalizda la Carga.");
@@ -232,12 +233,6 @@ Vector3D normalAnterior=null;
 		}
 	}
 
-	private void invertir2Vertices(Triangulo triangulo) {
-		Vector3D temp=new Vector3D();
-		temp.set(triangulo.getPoint(0));
-		triangulo.getPoint(0).set(triangulo.getPoint(1));
-		triangulo.getPoint(1).set(temp);
-	}
 
 	@Override
 	public Vector3D getCentro() {
@@ -341,43 +336,7 @@ Vector3D normalAnterior=null;
 
 	}
 
-	public double angulo(Vector3D v1, Vector3D v2, Vector3D v3) {
-		Vector3D a = new Vector3D();
-		Vector3D b = new Vector3D();
-		a.set(v1);
-		a.dif(v2);
-		b.set(v2);
-		b.dif(v3);
-		double escalar = a.dotproduct(b);
 
-		double ang = Math.sqrt(Math.pow(a.get(0), 2) + Math.pow(a.get(1), 2)
-				+ Math.pow(a.get(2), 2));
-		double ang2 = Math.sqrt(Math.pow(b.get(0), 2) + Math.pow(b.get(1), 2)
-				+ Math.pow(b.get(2), 2));
-		return Math.acos(escalar / (ang * ang2));
-	}
-
-	
-	public boolean estaAlRevez(Vector3D v1, Vector3D v2, Vector3D v3) {
-		Vector3D a = new Vector3D();
-		Vector3D b = new Vector3D();
-		a.set(v1);
-		a.dif(v2);
-		b.set(v2);
-		b.dif(v3);
-		Vector3D norm=a.crossProduct(b);
-		Vector3D v111=new Vector3D(); v111.set(1,1); v111.set(2,1); v111.set(3,1);
-		
-		double escalar = norm.dotproduct(getCentro());
-return escalar<0;
-	}
-	
-	public boolean estaAlRevez(Vector3D v1, Vector3D v2) {
-
-		
-		double escalar = v1.dotproduct(v2);
-return escalar<0;
-	}
 	@Override
 	public void representar() {
 		super.representar();
@@ -409,6 +368,7 @@ return escalar<0;
 			tria.divideByLast();
 		}
 		recalcularNormales();
+		ordenarTriangulos();
 		for (Triangulo tria : triangulo) {
 
 			// imprimirTriangulo(tria,4);
@@ -418,6 +378,17 @@ return escalar<0;
 
 		}
 
+	}
+
+	private void ordenarTriangulos() {
+
+		Arrays.sort(triangulo, new Comparator<Triangulo>(){
+
+			@Override
+			public int compare(Triangulo arg0, Triangulo arg1) {
+				return  (arg0.getPoint(1).getZ()>arg1.getPoint(1).getZ()? 1:arg0.getPoint(1).getZ()<arg1.getPoint(1).getZ()?-1:0);
+		
+			}});
 	}
 
 	private void reescribirTriangulos() {
