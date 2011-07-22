@@ -176,9 +176,6 @@ public class Triangulo {
 		else
 			return Math.pow(C, p);
 
-
-		
-		
 	}
 
 	// Setea el iesimo punto
@@ -198,8 +195,6 @@ public class Triangulo {
 		}
 	}
 
-
-	
 	void zbuffer(double[][] buf, ModeloIluminacion lightmethod, Vector3D light,
 			Triangulo tmptria, int n) {
 		if (lightmethod == ModeloIluminacion.GOURAUD) {
@@ -430,7 +425,7 @@ public class Triangulo {
 								Ip = Ia;
 								if (Math.abs(Ip) >= 0.0) {
 									tmp4 = Math.abs((0.2 + 0.8 * Ip)) - perspZ;
-							} else {
+								} else {
 									tmp4 = perspZ;
 								}
 							} else if (col == (int) right) {
@@ -438,7 +433,7 @@ public class Triangulo {
 								Ip = Ib;
 								if (Math.abs(Ip) >= 0.0) {
 									tmp4 = Math.abs((0.2 + 0.8 * Ip)) - perspZ;
-							} else {
+								} else {
 									tmp4 = perspZ;
 								}
 							} else {
@@ -448,22 +443,16 @@ public class Triangulo {
 										* ((right - col) / (right - left));
 								if (Math.abs(Ip) >= 0.0) {
 									tmp4 = Math.abs((0.2 + 0.8 * Ip)) - perspZ;
-							} else {
+								} else {
 									tmp4 = perspZ;
 								}
 							}
 
-							//if (buf[col][row] > tmp4)
 							{
 								if (Math.abs(tmp4) > 1.0) {
 									tmp4 = 1.0;
 								}
-								// if the grid is poor, sometimes an slight
-								// error
-								// will cause tmp4
-								// to be slightly less than -1.0, so correct
-								// that
-								// here.
+
 								buf[col][row] = -(Math.abs(tmp4));
 							}
 						}
@@ -503,10 +492,8 @@ public class Triangulo {
 		double XWCa = 0.0, XWCb = 0.0, XWCp;
 		double YWCa = 0.0, YWCb = 0.0, YWCp;
 		double ZWCa = 0.0, ZWCb = 0.0, ZWCp;
-		double perspZ, zleft = 0.0, zright = 0.0, tmp4 = 0.0;
+		double tmp4 = 0.0;
 		double ydiv1 = 0.0, ydiv2 = 0.0, ydiv3 = 0.0, xsub1 = 0.0, xsub2 = 0.0, xsub3 = 0.0;
-		double zsub1 = 0.0, zsub2 = 0.0, zsub3 = 0.0;
-
 		topnum = findTopRow();
 		top = t[topnum];
 		bottomnum = findBottomRow();
@@ -544,8 +531,6 @@ public class Triangulo {
 						ydiv1 = ((y1 - row) / (y1 - y2));
 						xsub1 = top.get(0) - (top.get(0) - middle.get(0))
 								* ydiv1;
-						zsub1 = top.get(2) - (top.get(2) - middle.get(2))
-								* ydiv1;
 						xNsub1 = XN1 - (XN1 - XN2) * ydiv1;
 						yNsub1 = YN1 - (YN1 - YN2) * ydiv1;
 						zNsub1 = ZN1 - (ZN1 - ZN2) * ydiv1;
@@ -556,8 +541,6 @@ public class Triangulo {
 					if (y1 != y3) {
 						ydiv2 = ((y1 - row) / (y1 - y3));
 						xsub2 = top.get(0) - (top.get(0) - bottom.get(0))
-								* ydiv2;
-						zsub2 = top.get(2) - (top.get(2) - bottom.get(2))
 								* ydiv2;
 						xNsub2 = XN1 - (XN1 - XN3) * ydiv2;
 						yNsub2 = YN1 - (YN1 - YN3) * ydiv2;
@@ -570,8 +553,6 @@ public class Triangulo {
 						ydiv3 = ((y2 - row) / (y2 - y3));
 						xsub3 = middle.get(0) - (middle.get(0) - bottom.get(0))
 								* ydiv3;
-						zsub3 = middle.get(2) - (middle.get(2) - bottom.get(2))
-								* ydiv3;
 						xNsub3 = XN2 - (XN2 - XN3) * ydiv3;
 						yNsub3 = YN2 - (YN2 - YN3) * ydiv3;
 						zNsub3 = ZN2 - (ZN2 - ZN3) * ydiv3;
@@ -582,7 +563,6 @@ public class Triangulo {
 					// System.out.println(ydiv1+" "+ydiv2+" "+ydiv3);
 					if (row == (int) top.get(1)) {
 						left = top.get(0);
-						zleft = top.get(2);
 						Xa = t[topnum + 3].get(0);
 						Ya = t[topnum + 3].get(1);
 						Za = t[topnum + 3].get(2);
@@ -591,7 +571,6 @@ public class Triangulo {
 						ZWCa = World.t[topnum].get(2);
 						if ((tmpnum = is2SameLine(topnum)) == topnum) {
 							right = left;
-							zright = top.get(2);
 							Xb = Xa;
 							Yb = Ya;
 							Zb = Za;
@@ -604,8 +583,6 @@ public class Triangulo {
 							if (tmp1 < left) {
 								right = left;
 								left = tmp1;
-								zright = zleft;
-								zleft = tmp2;
 								Xb = Xa;
 								Yb = Ya;
 								Zb = Za;
@@ -620,7 +597,6 @@ public class Triangulo {
 								ZWCa = World.t[tmpnum].get(2);
 							} else {
 								right = tmp1;
-								zright = tmp2;
 								Xb = t[tmpnum + 3].get(0);
 								Yb = t[tmpnum + 3].get(1);
 								Zb = t[tmpnum + 3].get(2);
@@ -631,7 +607,6 @@ public class Triangulo {
 						}
 					} else if (row == (int) bottom.get(1)) {
 						left = bottom.get(0);
-						zleft = bottom.get(2);
 						Xa = t[bottomnum + 3].get(0);
 						Ya = t[bottomnum + 3].get(1);
 						Za = t[bottomnum + 3].get(2);
@@ -640,7 +615,6 @@ public class Triangulo {
 						ZWCa = World.t[bottomnum].get(2);
 						if ((tmpnum = is2SameLine(bottomnum)) == bottomnum) {
 							right = left;
-							zright = bottom.get(2);
 							Xb = Xa;
 							Yb = Ya;
 							Zb = Za;
@@ -653,8 +627,6 @@ public class Triangulo {
 							if (tmp1 < left) {
 								right = left;
 								left = tmp1;
-								zright = zleft;
-								zleft = tmp2;
 								Xb = Xa;
 								Yb = Ya;
 								Zb = Za;
@@ -670,7 +642,6 @@ public class Triangulo {
 
 							} else {
 								right = tmp1;
-								zright = tmp2;
 								Xb = t[tmpnum + 3].get(0);
 								Yb = t[tmpnum + 3].get(1);
 								Zb = t[tmpnum + 3].get(2);
@@ -693,8 +664,6 @@ public class Triangulo {
 								if (tmp1 < tmp2) {
 									left = tmp1;
 									right = tmp2;
-									zleft = zsub1;
-									zright = zsub2;
 									Xa = xNsub1;
 									Ya = yNsub1;
 									Za = zNsub1;
@@ -710,7 +679,6 @@ public class Triangulo {
 								} else if (tmp2 < tmp1) {
 									left = tmp2;
 									right = tmp1;
-									zleft = zsub2;
 									Xa = xNsub2;
 									Ya = yNsub2;
 									Za = zNsub2;
@@ -732,8 +700,6 @@ public class Triangulo {
 								if (tmp1 < tmp2) {
 									left = tmp1;
 									right = tmp2;
-									zleft = zsub3;
-									zright = zsub2;
 									Xa = xNsub3;
 									Ya = yNsub3;
 									Za = zNsub3;
@@ -749,8 +715,6 @@ public class Triangulo {
 								} else if (tmp2 < tmp1) {
 									left = tmp2;
 									right = tmp1;
-									zleft = zsub2;
-									zright = zsub3;
 									Xa = xNsub2;
 									Ya = yNsub2;
 									Za = zNsub2;
@@ -771,8 +735,6 @@ public class Triangulo {
 								if (tmp1 < tmp2) {
 									left = tmp1;
 									right = tmp2;
-									zleft = middle.get(2);
-									zright = zsub2;
 									Xa = t[middlenum + 3].get(0);
 									Ya = t[middlenum + 3].get(1);
 									Za = t[middlenum + 3].get(2);
@@ -788,8 +750,6 @@ public class Triangulo {
 								} else if (tmp2 < tmp1) {
 									left = tmp2;
 									right = tmp1;
-									zleft = zsub2;
-									zright = middle.get(2);
 									Xa = xNsub2;
 									Ya = yNsub2;
 									Za = zNsub2;
@@ -812,8 +772,6 @@ public class Triangulo {
 							if (tmp1 < tmp2) {
 								left = tmp1;
 								right = tmp2;
-								zleft = zsub3;
-								zright = zsub2;
 								Xa = xNsub3;
 								Ya = yNsub3;
 								Za = zNsub3;
@@ -829,8 +787,6 @@ public class Triangulo {
 							} else if (tmp2 < tmp1) {
 								left = tmp2;
 								right = tmp1;
-								zleft = zsub2;
-								zright = zsub3;
 								Xa = xNsub2;
 								Ya = yNsub2;
 								Za = zNsub2;
@@ -851,8 +807,6 @@ public class Triangulo {
 							if (tmp1 < tmp2) {
 								left = tmp1;
 								right = tmp2;
-								zleft = zsub1;
-								zright = zsub2;
 								Xa = xNsub1;
 								Ya = yNsub1;
 								Za = zNsub1;
@@ -868,8 +822,6 @@ public class Triangulo {
 							} else if (tmp2 < tmp1) {
 								left = tmp2;
 								right = tmp1;
-								zleft = zsub2;
-								zright = zsub1;
 								Xa = xNsub2;
 								Ya = yNsub2;
 								Za = zNsub2;
@@ -889,7 +841,6 @@ public class Triangulo {
 
 						if ((col >= 0) && (col < buf.length)) {
 							if (col == (int) left) {
-								perspZ = zleft;
 								Xp = Xa;
 								Yp = Ya;
 								Zp = Za;
@@ -897,7 +848,6 @@ public class Triangulo {
 								YWCp = YWCa;
 								ZWCp = ZWCa;
 							} else if (col == (int) right) {
-								perspZ = zright;
 								Xp = Xb;
 								Yp = Yb;
 								Zp = Zb;
@@ -905,8 +855,6 @@ public class Triangulo {
 								YWCp = YWCb;
 								ZWCp = ZWCb;
 							} else {
-								perspZ = zright
-										- ((zright - zleft) * ((right - col) / (right - left)));
 								Xp = Xb - (Xb - Xa)
 										* ((right - col) / (right - left));
 								Yp = Yb - (Yb - Ya)
@@ -929,23 +877,12 @@ public class Triangulo {
 							G = gouraud(tmpnorm, light);
 							P = phong(view, tmpnorm, light, p);
 							tmp4 = P + G;
-//							if (tmp4 == 0.0){ tmp4 = perspZ; }
-//							if (Math.abs(tmp4) >= 0.0) {
-//								tmp4 = -Math.abs((0.2 + 0.4 * tmp4)) - perspZ;
-//							} else {
-//								tmp4 = perspZ;
-//							}// System.out.println(tmp4);
 
-							//if (buf[col][row] > tmp4)
 							{
-								 if (Math.abs(tmp4) >1.0){ tmp4 = 1.0; }
-							
-								 // if the grid is poor, sometimes an slight
-								// error
-								// will cause tmp4
-								// to be slightly less than -1.0, so correct
-								// that
-								// here.
+								if (Math.abs(tmp4) > 1.0) {
+									tmp4 = 1.0;
+								}
+
 								buf[col][row] = -(Math.abs(tmp4));
 							}
 						}
@@ -962,8 +899,6 @@ public class Triangulo {
 		int topnum, bottomnum, middlenum, tmpnum;
 		double left = 0.0, right = 0.0, tmp1, tmp2, y1, y2, y3;
 		double ydiv1 = 0.0, ydiv2 = 0.0, ydiv3 = 0.0, xsub1 = 0.0, xsub2 = 0.0, xsub3 = 0.0;
-		double zsub1 = 0.0, zsub2 = 0.0, zsub3 = 0.0;
-
 		topnum = findTopRow();
 		top = t[topnum];
 		bottomnum = findBottomRow();
@@ -982,21 +917,15 @@ public class Triangulo {
 						ydiv1 = ((y1 - row) / (y1 - y2));
 						xsub1 = top.get(0) - (top.get(0) - middle.get(0))
 								* ydiv1;
-						zsub1 = top.get(2) - (top.get(2) - middle.get(2))
-								* ydiv1;
 					}
 					if (y1 != y3) {
 						ydiv2 = ((y1 - row) / (y1 - y3));
 						xsub2 = top.get(0) - (top.get(0) - bottom.get(0))
 								* ydiv2;
-						zsub2 = top.get(2) - (top.get(2) - bottom.get(2))
-								* ydiv2;
 					}
 					if (y2 != y3) {
 						ydiv3 = ((y2 - row) / (y2 - y3));
 						xsub3 = middle.get(0) - (middle.get(0) - bottom.get(0))
-								* ydiv3;
-						zsub3 = middle.get(2) - (middle.get(2) - bottom.get(2))
 								* ydiv3;
 					}
 
@@ -1094,22 +1023,13 @@ public class Triangulo {
 
 					for (int col = (int) left; col <= (int) right; col++) {
 						if ((col >= 0) && (col < buf.length)) {
-//							if (col == (int) left) {
-//								perspZ = zleft;
-//							} else if (col == (int) right) {
-//								perspZ = zright;
-//							} else {
-//								perspZ = zright
-//										- ((zright - zleft) * ((right - col) / (right - left)));
-//							}
-//
-//							if (buf[col][row] > perspZ)
-//							{
-								buf[col][row] = -(Math.abs(t[6].get(0))); // en t[6] tengo
-																// la normal al
-																// triangulo
-																// este
-//							}
+
+							buf[col][row] = -(Math.abs(t[6].get(0))); // en t[6]
+																		// tengo
+							// la normal al
+							// triangulo
+							// este
+
 						}
 					}
 				}
@@ -1131,9 +1051,6 @@ public class Triangulo {
 		bottom = t[bottomnum];
 		middlenum = findMiddle(topnum, bottomnum);
 		middle = t[middlenum];
-		// System.out.println(top.toString());
-		// System.out.println(bottom.toString());
-		// System.out.println(middle.toString());
 
 		// si no estan todos los puntos juntos
 		if (is3SepPoints()) {
