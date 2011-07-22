@@ -428,26 +428,35 @@ public class Triangulo {
 							if (col == (int) left) {
 								perspZ = zleft;
 								Ip = Ia;
+								if (Math.abs(Ip) >= 0.0) {
+									tmp4 = Math.abs((0.2 + 0.8 * Ip)) - perspZ;
+							} else {
+									tmp4 = perspZ;
+								}
 							} else if (col == (int) right) {
 								perspZ = zright;
 								Ip = Ib;
-
+								if (Math.abs(Ip) >= 0.0) {
+									tmp4 = Math.abs((0.2 + 0.8 * Ip)) - perspZ;
+							} else {
+									tmp4 = perspZ;
+								}
 							} else {
 								perspZ = zright
 										- ((zright - zleft) * ((right - col) / (right - left)));
 								Ip = Ib - (Ib - Ia)
 										* ((right - col) / (right - left));
 								if (Math.abs(Ip) >= 0.0) {
-									tmp4 = -Math.abs((0.2 + 0.8 * Ip)) - perspZ;
-								} else {
+									tmp4 = Math.abs((0.2 + 0.8 * Ip)) - perspZ;
+							} else {
 									tmp4 = perspZ;
 								}
 							}
 
 							//if (buf[col][row] > tmp4)
 							{
-								if (tmp4 < -1.0) {
-									tmp4 = -1.0;
+								if (Math.abs(tmp4) > 1.0) {
+									tmp4 = 1.0;
 								}
 								// if the grid is poor, sometimes an slight
 								// error
@@ -455,7 +464,7 @@ public class Triangulo {
 								// to be slightly less than -1.0, so correct
 								// that
 								// here.
-								buf[col][row] = tmp4;
+								buf[col][row] = -(Math.abs(tmp4));
 							}
 						}
 					}
@@ -920,16 +929,16 @@ public class Triangulo {
 							G = gouraud(tmpnorm, light);
 							P = phong(view, tmpnorm, light, p);
 							tmp4 = P + G;
-							if (tmp4 == 0.0){ tmp4 = perspZ; }
-							if (Math.abs(tmp4) >= 0.0) {
-								tmp4 = -Math.abs((0.2 + 0.4 * tmp4)) - perspZ;
-							} else {
-								tmp4 = perspZ;
-							}// System.out.println(tmp4);
+//							if (tmp4 == 0.0){ tmp4 = perspZ; }
+//							if (Math.abs(tmp4) >= 0.0) {
+//								tmp4 = -Math.abs((0.2 + 0.4 * tmp4)) - perspZ;
+//							} else {
+//								tmp4 = perspZ;
+//							}// System.out.println(tmp4);
 
 							//if (buf[col][row] > tmp4)
 							{
-								 if (tmp4 <-1.0){ tmp4 = -1.0; }
+								 if (Math.abs(tmp4) >1.0){ tmp4 = 1.0; }
 							
 								 // if the grid is poor, sometimes an slight
 								// error
@@ -937,7 +946,7 @@ public class Triangulo {
 								// to be slightly less than -1.0, so correct
 								// that
 								// here.
-								buf[col][row] = tmp4;
+								buf[col][row] = -(Math.abs(tmp4));
 							}
 						}
 					}
@@ -952,7 +961,6 @@ public class Triangulo {
 		Vector3D middle = new Vector3D();
 		int topnum, bottomnum, middlenum, tmpnum;
 		double left = 0.0, right = 0.0, tmp1, tmp2, y1, y2, y3;
-		double perspZ, zleft = 0.0, zright = 0.0;
 		double ydiv1 = 0.0, ydiv2 = 0.0, ydiv3 = 0.0, xsub1 = 0.0, xsub2 = 0.0, xsub3 = 0.0;
 		double zsub1 = 0.0, zsub2 = 0.0, zsub3 = 0.0;
 
@@ -994,40 +1002,30 @@ public class Triangulo {
 
 					if (row == (int) top.get(1)) {
 						left = top.get(0);
-						zleft = top.get(2);
 						if ((tmpnum = is2SameLine(topnum)) == topnum) {
 							right = left;
-							zright = top.get(2);
 						} else {
 							tmp1 = t[tmpnum].get(0);
 							tmp2 = t[tmpnum].get(2);
 							if (tmp1 < left) {
 								right = left;
 								left = tmp1;
-								zright = zleft;
-								zleft = tmp2;
 							} else {
 								right = tmp1;
-								zright = tmp2;
 							}
 						}
 					} else if (row == (int) bottom.get(1)) {
 						left = bottom.get(0);
-						zleft = bottom.get(2);
 						if ((tmpnum = is2SameLine(bottomnum)) == bottomnum) {
 							right = left;
-							zright = bottom.get(2);
 						} else {
 							tmp1 = t[tmpnum].get(0);
 							tmp2 = t[tmpnum].get(2);
 							if (tmp1 < left) {
 								right = left;
 								left = tmp1;
-								zright = zleft;
-								zleft = tmp2;
 							} else {
 								right = tmp1;
-								zright = tmp2;
 							}
 						}
 					} else {
@@ -1042,13 +1040,9 @@ public class Triangulo {
 								if (tmp1 < tmp2) {
 									left = tmp1;
 									right = tmp2;
-									zleft = zsub1;
-									zright = zsub2;
 								} else if (tmp2 < tmp1) {
 									left = tmp2;
 									right = tmp1;
-									zleft = zsub2;
-									zright = zsub1;
 								}
 							} else if (row > middle.get(1)) {
 								// mitad inferior
@@ -1057,13 +1051,9 @@ public class Triangulo {
 								if (tmp1 < tmp2) {
 									left = tmp1;
 									right = tmp2;
-									zleft = zsub3;
-									zright = zsub2;
 								} else if (tmp2 < tmp1) {
 									left = tmp2;
 									right = tmp1;
-									zleft = zsub2;
-									zright = zsub3;
 								}
 							} else if (row == middle.get(1)) {
 								// linea del medio
@@ -1072,13 +1062,9 @@ public class Triangulo {
 								if (tmp1 < tmp2) {
 									left = tmp1;
 									right = tmp2;
-									zleft = middle.get(2);
-									zright = zsub2;
 								} else if (tmp2 < tmp1) {
 									left = tmp2;
 									right = tmp1;
-									zleft = zsub2;
-									zright = middle.get(2);
 								}
 							}
 						} else if (middle.get(1) == top.get(1)) {
@@ -1088,13 +1074,9 @@ public class Triangulo {
 							if (tmp1 < tmp2) {
 								left = tmp1;
 								right = tmp2;
-								zleft = zsub3;
-								zright = zsub2;
 							} else if (tmp2 < tmp1) {
 								left = tmp2;
 								right = tmp1;
-								zleft = zsub2;
-								zright = zsub3;
 							}
 						} else if (middle.get(1) == bottom.get(1)) {
 							// medio = inferior
@@ -1103,35 +1085,31 @@ public class Triangulo {
 							if (tmp1 < tmp2) {
 								left = tmp1;
 								right = tmp2;
-								zleft = zsub1;
-								zright = zsub2;
 							} else if (tmp2 < tmp1) {
 								left = tmp2;
 								right = tmp1;
-								zleft = zsub2;
-								zright = zsub1;
 							}
 						}
 					}
 
 					for (int col = (int) left; col <= (int) right; col++) {
 						if ((col >= 0) && (col < buf.length)) {
-							if (col == (int) left) {
-								perspZ = zleft;
-							} else if (col == (int) right) {
-								perspZ = zright;
-							} else {
-								perspZ = zright
-										- ((zright - zleft) * ((right - col) / (right - left)));
-							}
-
-							//if (buf[col][row] > perspZ)
-							{
-								buf[col][row] = -t[6].get(0); // en t[6] tengo
+//							if (col == (int) left) {
+//								perspZ = zleft;
+//							} else if (col == (int) right) {
+//								perspZ = zright;
+//							} else {
+//								perspZ = zright
+//										- ((zright - zleft) * ((right - col) / (right - left)));
+//							}
+//
+//							if (buf[col][row] > perspZ)
+//							{
+								buf[col][row] = -(Math.abs(t[6].get(0))); // en t[6] tengo
 																// la normal al
 																// triangulo
 																// este
-							}
+//							}
 						}
 					}
 				}
