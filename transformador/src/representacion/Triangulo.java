@@ -424,7 +424,7 @@ public class Triangulo {
 								perspZ = zleft;
 								Ip = Ia;
 								if (Math.abs(Ip) >= 0.0) {
-									tmp4 = Math.abs((0.2 + 0.8 * Ip)) - perspZ;
+									tmp4 = -Math.abs((0.2 + 0.8 * Ip)) - perspZ;
 								} else {
 									tmp4 = perspZ;
 								}
@@ -432,7 +432,7 @@ public class Triangulo {
 								perspZ = zright;
 								Ip = Ib;
 								if (Math.abs(Ip) >= 0.0) {
-									tmp4 = Math.abs((0.2 + 0.8 * Ip)) - perspZ;
+									tmp4 = -Math.abs((0.2 + 0.8 * Ip)) - perspZ;
 								} else {
 									tmp4 = perspZ;
 								}
@@ -442,7 +442,7 @@ public class Triangulo {
 								Ip = Ib - (Ib - Ia)
 										* ((right - col) / (right - left));
 								if (Math.abs(Ip) >= 0.0) {
-									tmp4 = Math.abs((0.2 + 0.8 * Ip)) - perspZ;
+									tmp4 = -Math.abs((0.2 + 0.8 * Ip)) - perspZ;
 								} else {
 									tmp4 = perspZ;
 								}
