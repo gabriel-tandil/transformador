@@ -385,7 +385,7 @@ public class ObjetoSur extends ObjetoTridimensional {
 		Arrays.sort(triangulo, new Comparator<Triangulo>(){
 
 			@Override
-			public int compare(Triangulo arg1, Triangulo arg0) {
+			public int compare(Triangulo arg0, Triangulo arg1) {
 				Double zPromedio0=new Double((arg0.getPoint(0).getZ()+arg0.getPoint(1).getZ()+arg0.getPoint(2).getZ())/3);
 				Double zPromedio1=new Double((arg1.getPoint(0).getZ()+arg1.getPoint(1).getZ()+arg1.getPoint(2).getZ())/3);
 				
